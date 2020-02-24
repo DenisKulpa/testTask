@@ -1,9 +1,20 @@
 package com.start.testTask.entity;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name="persons")
 public class Person {
+
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    @Column(name = "id")
     Long id;
+    @Column(name = "name")
     String name;
+    @Column(name = "login")
     String login;
+    @Column(name = "password")
     String password;
 
     public Person() {

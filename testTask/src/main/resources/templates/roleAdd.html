@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>role</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<p>add new Role</p>
+<form action="#" th:action="@{/roleAdd}" method="post">
+    <p>Id: <input type="number"  name="id"/></p>
+    <p>Name: <input type="text"  name="name" /></p>
+    <p><input type="submit" value="Submit"/></p>
+</form>
+
+<h1>RoleList</h1>
+<table>
+    <tr th:each="role : ${roleList}">
+        <td th:text="${role.getId()}"></td>
+        <td th:text="${role.getName()}"></td>
+        <td></td>
+    </tr>
+</table>
+</body>
+</html>

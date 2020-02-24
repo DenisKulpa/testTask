@@ -5,7 +5,20 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-<table>
+<h2>rolelist</h2>
+<table border="1px solid #000000">
+    <tr th:each="role : ${roleList}">
+        <td th:text="${role.getId()}"></td>
+        <td th:text="${role.getName()}"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+</table>
+<br>
+<br>
+<h2>userlist</h2>
+<table border="1px solid #000000">
     <tr th:each="person : ${personList}">
         <td th:text="${person.getId()}"></td>
         <td th:text="${person.getLogin()}"></td>
@@ -19,5 +32,9 @@
 <br>
 <br>
 <a th:href="@{userAdd}">Link to UserPage</a>
+<br>
+<a th:href="@{roleAdd}">Link to RolePage</a>
+<br>
+<a th:href="@{userDel}">Link to Delete User</a>
 </body>
 </html>

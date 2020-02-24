@@ -2,14 +2,19 @@ package com.start.testTask.controller;
 
 import com.start.testTask.entity.Person;
 //import io.swagger.models.Model;
+//import com.start.testTask.service.PersonService;
+import com.start.testTask.entity.Role;
+import com.start.testTask.service.PersonServiceImp;
+import com.start.testTask.service.RoleServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 
 import javax.websocket.server.PathParam;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -23,11 +28,22 @@ public class RootController {
         put(5L, new Person(5L, "Jane", "jane", "789"));
     }};
 
+    @Autowired
+    private PersonServiceImp personServiceImp;
+
+    @Autowired
+    private RoleServiceImpl roleServiceImp;
+
     @GetMapping
     public String root(Model model) {
-        model.addAttribute("personList", new ArrayList<>(persons.values()));
+        List<Person> allPerson = personServiceImp.getAllPerson();
+        List<Role> allRole = roleServiceImp.getAllRoles();
+        model.addAttribute("personList", allPerson);
+        model.addAttribute("roleList", allRole);
+//        model.addAttribute("personList", new ArrayList<>(persons.values()));
         return "home";
     }
+
 
     @PostMapping
     public Person addNewPerson(@RequestBody Person person) {
@@ -37,27 +53,66 @@ public class RootController {
 
     @GetMapping("/userAdd")
     public String userAdd(Model model) {
-        model.addAttribute("personList", new ArrayList<>(persons.values()));
-        model.addAttribute("person", new Person());
+        List<Person> allPerson = personServiceImp.getAllPerson();
+        model.addAttribute("personList", allPerson);
         return "userAdd";
     }
 
     @PostMapping("/userAdd")
     public String personSubmit(
-            @PathParam("id") Long id,
+//            @PathParam("id") Long id,
             @PathParam("name") String name,
             @PathParam("login") String login,
             @PathParam("password") String password,
             Model model) {
         Person person = new Person();
-        person.setId(id);
+//        person.setId(id);
         person.setName(name);
         person.setLogin(login);
         person.setPassword(password);
-        persons.put(id,person);
-        model.addAttribute("personList", new ArrayList<>(persons.values()));
+        personServiceImp.savePerson(person);
+        List<Person> allPerson = personServiceImp.getAllPerson();
+        model.addAttribute("personList", allPerson);
+//        persons.put(id,person);
+//        model.addAttribute("personList", new ArrayList<>(persons.values()));
         return "userAdd";
     }
 
+    @GetMapping("/roleAdd")
+    public String roleAdd(Model model) {
+        List<Role> allRoles = roleServiceImp.getAllRoles();
+        model.addAttribute("roleList", allRoles);
+        return "roleAdd";
+    }
+
+    @PostMapping("/roleAdd")
+    public String roleSubmit(
+            @PathParam("id") Long id,
+            @PathParam("name") String name,
+            Model model) {
+        Role role = new Role();
+        role.setId(id);
+        role.setName(name);
+        roleServiceImp.saveRole(role);
+        List<Role> allRoles = roleServiceImp.getAllRoles();
+        model.addAttribute("roleList", allRoles);
+        return "roleAdd";
+    }
+    // redirect to the page
+    @GetMapping("/userDel")
+    public String userDel(Model model) {
+        List<Role> allRoles = roleServiceImp.getAllRoles();
+        model.addAttribute("roleList", allRoles);
+        return "userDel";
+    }
+
+    // delete user
+    @PostMapping("/userDel")
+    public String userDel(@PathParam("id") Long id, Model model) {
+        personServiceImp.deletePerson(id);
+        List<Person> allPerson = personServiceImp.getAllPerson();
+        model.addAttribute("personList", allPerson);
+        return "userDel";
+    }
 
 }
