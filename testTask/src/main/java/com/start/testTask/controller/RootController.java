@@ -230,6 +230,7 @@ public class RootController {
     public String roleAdd(Model model) {
         List<Role> allRoles = roleServiceImp.getAllRoles();
         model.addAttribute("roleList", allRoles);
+        System.out.println("Ruslan was changed");
         return "roleAdd";
     }
 
