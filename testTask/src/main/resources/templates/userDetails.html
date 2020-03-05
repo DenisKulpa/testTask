@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<h2>user details</h2>
+<table border="1px solid #000000">
+    <tr>
+        <td th:text="${person.getId()}"></td>
+        <td th:text="${person.getLogin()}"></td>
+        <td th:text="${person.getName()}"></td>
+        <td th:text="${person.getPassword()}"></td>
+        <td><a th:href="@{'/userEditForm/' + ${person.getId()}}">edit</a></td>
+    </tr>
+</table>
+<h2>user roles</h2>
+<table border="1px solid #000000">
+    <tr th:each="role : ${person.getRoles()}">
+        <td th:text="${role.getId()}"></td>
+        <td th:text="${role.getName()}"></td>
+        <td><a th:href="@{'/userRoleDelete/'  + ${person.getId()} + '/' + ${role.getId()}}">del</a></td>
+    </tr>
+</table>
+</body>
+</html>

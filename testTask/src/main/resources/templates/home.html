@@ -5,36 +5,68 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-<h2>rolelist</h2>
+<h2>Roles list</h2>
+<h3><a th:href="@{roleAdd}">Link to RolePage</a></h3>
 <table border="1px solid #000000">
     <tr th:each="role : ${roleList}">
         <td th:text="${role.getId()}"></td>
         <td th:text="${role.getName()}"></td>
-        <td></td>
-        <td></td>
-        <td></td>
     </tr>
 </table>
 <br>
-<br>
-<h2>userlist</h2>
+<hr>
+<h2>Goods list</h2>
+<h3><a th:href="@{goodsAdd}">Link to GoodsPage</a></h3>
+<table border="1px solid #000000">
+    <tr th:each="goods : ${goodsList}">
+        <td th:text="${goods.getId()}"></td>
+        <td th:text="${goods.getName()}"></td>
+    </tr>
+</table>
+<hr>
+<h2>Users list</h2>
+<h3><a th:href="@{userAdd}">add user</a></h3>
+<h3><a th:href="@{userDel}">delete user</a></h3>
 <table border="1px solid #000000">
     <tr th:each="person : ${personList}">
         <td th:text="${person.getId()}"></td>
         <td th:text="${person.getLogin()}"></td>
         <td th:text="${person.getName()}"></td>
         <td th:text="${person.getPassword()}"></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td><a th:href="@{'/userDetails/' + ${person.getId()}}">info</a></td>
     </tr>
 </table>
 <br>
-<br>
-<a th:href="@{userAdd}">Link to UserPage</a>
-<br>
-<a th:href="@{roleAdd}">Link to RolePage</a>
-<br>
-<a th:href="@{userDel}">Link to Delete User</a>
+<hr>
+<h2>Users role add</h2>
+<form action="#"  th:action="@{/userRoleAdd}" method="post">
+    <p>Select user name:<select name="person_id">
+        <option  th:each="person : ${personList}" th:value="${person.getId()}" th:text="${person.getName()}"></option>
+    </select></p>
+    <p>Select user role:<select name="role_id">
+        <option  th:each="role : ${roleList}" th:value="${role.getId()}" th:text="${role.getName()}"></option>
+    </select></p>
+    <p><input type="submit" value="Отправить"></p>
+</form>
+<hr>
+<h2>Add goods to user</h2>
+<form action="#"  th:action="@{/userGoodsAdd}" method="post"> <!--// role -> goods-->
+    <p>Select user name:<select name="person_id">
+        <option  th:each="person : ${personList}" th:value="${person.getId()}" th:text="${person.getName()}"></option>
+    </select></p>
+    <!--<p>Select goods:<select name="goods_id">-->
+        <!--<option  th:each="goods : ${goodsList}" th:value="${goods.getId()}" th:text="${goods.getName()}"></option>-->
+    <!--</select></p>-->
+    <tr>
+        <td><h3>select goods form list:</h3></td>
+        <td>
+            <th:block th:each="goods : ${goodsList}">
+                <input type="checkbox" name="goods_id" th:value="${goods.getId()}"/>
+                <label  th:text="${goods.getName()}"></label>
+            </th:block>
+        </td>
+    </tr>
+    <p><input type="submit" value="Отправить"></p>
+</form>
 </body>
 </html>

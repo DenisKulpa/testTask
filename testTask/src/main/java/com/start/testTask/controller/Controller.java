@@ -1,12 +1,16 @@
 package com.start.testTask.controller;
 // !!!!!! remember /api
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.start.testTask.adapters.PersonAdapter;
 import com.start.testTask.entity.Person;
+import com.start.testTask.entity.Role;
+import com.start.testTask.service.PersonService;
+import com.start.testTask.service.PersonServiceImp;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api")
@@ -19,6 +23,8 @@ public class Controller {
         put(5L, new Person(5L, "Jane", "jane", "789"));
     }};
 
+    @Autowired
+    private PersonService personService;
 
     @GetMapping("/")
     public List<Person> getAllPersons() {
@@ -27,7 +33,8 @@ public class Controller {
 
     @GetMapping("/{id}")
     public Person getPersonById(@PathVariable("id") Long id) {
-        return persons.get(id);
+        Person person = personService.getPersonById(id);
+        return person;
     }
 
     @PostMapping("/")

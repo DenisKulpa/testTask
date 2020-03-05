@@ -5,26 +5,20 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Table(name = "role")
-public class Role {
+@Table(name="goods")
+public class Goods {
 
     @Id
-    @Column(name = "role_id")
-    @SequenceGenerator(name = "roles_seq", sequenceName = "roles_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "roles_seq")
+    @Column(name = "goods_id")
+    @SequenceGenerator(name = "goods_seq", sequenceName = "goods_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "goods_seq")
     Long id;
+
     @Column(name = "name")
     String name;
 
-    @ManyToMany(mappedBy = "roles")
-    private Set<Person> persons;
-
-    public Role(){
-    }
-
-    public Role(String name) {
-        this.name = name;
-    }
+    @ManyToMany(mappedBy = "goods")
+    private Set<Order> orders;
 
     public Long getId() {
         return id;
@@ -46,10 +40,10 @@ public class Role {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Role role = (Role) o;
-        return Objects.equals(id, role.id) &&
-                Objects.equals(name, role.name) &&
-                Objects.equals(persons, role.persons);
+        Goods goods = (Goods) o;
+        return Objects.equals(id, goods.id) &&
+                Objects.equals(name, goods.name) &&
+                Objects.equals(orders, goods.orders);
     }
 
     @Override
@@ -58,5 +52,6 @@ public class Role {
         int result = getId() != null ? getId().hashCode() : 0;
         result = 31 * result + (getName() != null ? getName().hashCode() : 0);
         return result;
+
     }
 }
